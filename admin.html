@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم قوية - أصالة التراث المصري</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;800&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+body{background:#F8F5EF;color:#222;line-height:1.8;padding-bottom:80px}
+header{position:sticky;top:0;background:#111;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;z-index:99;flex-wrap:wrap;gap:10px}
+header b{color:#C9A227}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;background:#fff;padding:10px;position:sticky;top:58px;z-index:98;box-shadow:0 2px 12px rgba(0,0,0,.08);overflow-x:auto}
+.tabs button{padding:11px 16px;border:0;border-radius:30px;background:#F1E9D2;font-weight:800;cursor:pointer;white-space:nowrap}
+.tabs button.active{background:#C9A227;color:#111}
+.wrap{max-width:1000px;margin:20px auto;padding:0 14px}
+.panel{display:none}.panel.active{display:block;animation:f .25s}
+@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:#fff;border:1px solid #EDE3C8;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+.card h3{color:#8A6D00;margin-bottom:12px}
+label{display:block;font-size:13px;font-weight:800;color:#8A6D00;margin:10px 0 5px}
+input,textarea,select{width:100%;padding:12px;border:2px solid #E8E0D0;border-radius:10px;font-size:15px;font-family:inherit;background:#fff}
+input:focus,textarea:focus{outline:none;border-color:#C9A227}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}}
+.btn{padding:12px 20px;border:0;border-radius:12px;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
+.btn-gold{background:#C9A227}
+.btn-green{background:#25D366;color:#fff}
+.btn-red{background:#c0392b;color:#fff}
+.btn-gray{background:#eee}
+.btn-sm{padding:8px 12px;width:auto;font-size:13px}
+.row{display:flex;gap:8px;align-items:center}
+.row img{width:70px;height:70px;object-fit:cover;border-radius:10px}
+.pcard{border:1px solid #EDE3C8;border-radius:14px;overflow:hidden;margin-bottom:12px;background:#fff}
+.pcard img{width:100%;height:170px;object-fit:cover}
+.pcard div{padding:12px}
+.colorRow{display:flex;gap:10px;flex-wrap:wrap}
+.colorRow div{text-align:center}
+.colorRow input[type=color]{width:60px;height:45px;padding:3px;cursor:pointer}
+.toggle{display:flex;justify-content:space-between;align-items:center;background:#F8F5EF;padding:12px;border-radius:10px;margin:8px 0}
+.toggle input{width:50px;height:26px;accent-color:#C9A227}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:12px 22px;border-radius:30px;font-weight:800;display:none;z-index:999}
+.previewBox{border:3px solid #C9A227;border-radius:16px;overflow:hidden;background:#fff}
+.previewBox iframe{width:100%;height:650px;border:0}
+small{color:#888;font-size:12px}
+</style>
+</head>
+<body>
+<header><div>👑 <b>أصالة التراث المصري</b> - لوحة تحكم قوية</div><div><button class="btn-sm" style="background:#C9A227;border:0;padding:8px 14px;border-radius:20px;font-weight:800;cursor:pointer" onclick="openStore()">👁️ افتح المتجر</button> <button class="btn-sm" style="background:#25D366;color:#fff;border:0;padding:8px 14px;border-radius:20px;font-weight:800;cursor:pointer" onclick="saveAll()">💾 حفظ الكل</button></div></header>
+
+<div class="tabs" id="tabs">
+<button class="active" onclick="show('general')">🏠 عام</button>
+<button onclick="show('header')">🔝 الهيدر</button>
+<button onclick="show('hero')">🎬 البطل Hero</button>
+<button onclick="show('sections')">📑 الأقسام</button>
+<button onclick="show('products')">📦 المنتجات</button>
+<button onclick="show('story')">📖 حكاية الصنعة</button>
+<button onclick="show('design')">🎨 التصميم</button>
+<button onclick="show('media')">🖼️ الصور</button>
+<button onclick="show('contact')">📞 التواصل والشحن</button>
+<button onclick="show('footer')">🦶 الفوتر</button>
+<button onclick="show('backup')">💾 نسخ احتياطي</button>
+<button onclick="show('preview')">👁️ معاينة</button>
+</div>
+
+<div class="wrap">
+
+<!-- عام -->
+<div class="panel active" id="p-general"><div class="card"><h3>🏠 هوية الموقع - كل حاجة هنا بتتغير</h3>
+<label>اسم الموقع</label><input id="siteName" value="أصالة التراث المصري">
+<label>الاسم بالانجليزي</label><input id="siteNameEn" value="Asala Heritage Egyptian">
+<label>السلوجان</label><input id="slogan" value="عاشق ومعشوق — فن يدوي تم تصنيعه بحب من القلب ❤️">
+<label>الوصف المختصر</label><textarea id="siteDesc" rows="3">أفخم منتجات الصدف الطبيعي المصري اليدوي — خشب زان روماني + صدف بحري أبيض أصلي — صنع بفخر في دمياط</textarea>
+<label>كلمة السر للوحة (غيرها)</label><input id="adminPass" value="asala123">
+<div class="toggle"><span>إظهار شريط الثقة فوق</span><input type="checkbox" id="showTrust" checked></div>
+<label>نص شريط الثقة - كل سطر وحدة</label><textarea id="trustBar" rows="3">🇪🇬 صنع في مصر
+🛡️ ضمان 20 سنة ضد عيوب الصناعة
+🚚 شحن الكويت والخليج 20-25 يوم
+✋ شغل يدوي 100%</textarea>
+</div></div>
+
+<!-- هيدر -->
+<div class="panel" id="p-header"><div class="card"><h3>🔝 الهيدر - الشريط اللي فوق</h3>
+<label>نص اللوجو في الهيدر</label><input id="headerLogoText" value="👑 أصالة التراث المصري">
+<label>روابط الهيدر - كل سطر: الاسم | الرابط</label><textarea id="headerLinks" rows="4">الرئيسية | #home
+المنتجات | #products
+طقم النجمة الخضرا | #star
+حكاية الصنعة | #story
+اطلب تفصيل | #order</textarea>
+<label>نص زر الهيدر</label><input id="headerBtn" value="💬 واتساب 51118069">
+<div class="toggle"><span>إظهار الهيدر</span><input type="checkbox" id="showHeader" checked></div>
+<div class="toggle"><span>تثبيت الهيدر فوق مع التمرير</span><input type="checkbox" id="stickyHeader" checked></div>
+</div></div>
+
+<!-- هيرو -->
+<div class="panel" id="p-hero"><div class="card"><h3>🎬 قسم البطل Hero - أول حاجة الزبون بيشوفها</h3>
+<label>العنوان الكبير - سطر 1</label><input id="heroTitle1" value="لما العشق يتحول لتحفة فنية">
+<label>العنوان الكبير - سطر 2</label><input id="heroTitle2" value="صدف طبيعي مصري 100%">
+<label>نص تحت العنوان</label><textarea id="heroText" rows="3">مش مجرد بارافان.. ده قصة عشق بين خشب وصدف وفنان مصري بيتنفس تراث! خشب زان روماني + صدف بحري أبيض أصلي</textarea>
+<label>نص زر 1</label><input id="heroBtn1" value="شوف الكتالوج 👇">
+<label>رابط زر 1</label><input id="heroBtn1Link" value="#products">
+<label>نص زر 2</label><input id="heroBtn2" value="واتساب 51118069">
+<label>رابط زر 2</label><input id="heroBtn2Link" value="https://wa.me/96551118069">
+<label>نص صغير تحت الأزرار</label><input id="heroSmall" value="🚚 شحن الكويت والخليج 20-25 يوم | بدون أسعار - الاستفسار واتساب">
+<label>رابط صورة الخلفية</label><input id="heroImage" value="https://images.unsplash.com/photo-1600210492486-724d80a4f3c7?w=1200">
+<label>درجة تغميق الصورة (0-0.8)</label><input id="heroDark" type="number" step="0.1" value="0.55">
+<div class="toggle"><span>إظهار قسم البطل</span><input type="checkbox" id="showHero" checked></div>
+</div></div>
+
+<!-- اقسام -->
+<div class="panel" id="p-sections"><div class="card"><h3>📑 التحكم في كل قسم - إظهار / إخفاء / تغيير عنوانه</h3>
+<div id="sectionsList"></div>
+<label>عنوان قسم المنتجات</label><input id="secProductsTitle" value="تشكيلة أصالة - النجمة الخضرا وكل الشغل المصري">
+<label>وصف قسم المنتجات</label><input id="secProductsSub" value="كل القطع صدف أبيض لؤلؤي + نجمة إسلامية 12 + نقطة زمرد - حافة مخططة أبيض وأسود">
+<label>عنوان قسم النجمة الخضرا</label><input id="secStarTitle" value="⭐ طقم النجمة الخضرا - الطقم النجم">
+<label>وصف طقم النجمة الخضرا</label><textarea id="secStarDesc" rows="3">صينية مستطيلة + علبة مربعة + مبخرة ساعة رملية - صدف أبيض لؤلؤي + نجمة 12 سوداء + نقطة زمرد خضرا + أزرق + أصفر - خشب أسود فاخر</textarea>
+<label>عنوان قسم آراء العملاء</label><input id="secReviewsTitle" value="⭐ آراء عملائنا في الكويت">
+<label>آراء العملاء - كل رأي في سطر: الاسم | الرأي</label><textarea id="reviews" rows="4">أبو عبدالله - الكويت | الشغل فخم والصدف أصلي، فرش ديوانيتي كلها من عندهم
+أم سارة - الكويت | طلبت طقم النجمة الخضرا هدية، التغليف ملكي والشغل أحلى من الصور
+أبو محمد - المباركية | تاجر جملة، باخد منهم 21 مبخرة كل شهر، ملتزمين وشغلهم نضيف</textarea>
+</div></div>
+
+<!-- منتجات -->
+<div class="panel" id="p-products"><div class="card"><h3>📦 المنتجات - أضف / عدل / احذف / رتب</h3>
+<div class="row"><input id="searchProd" placeholder="🔍 ابحث..." oninput="renderProducts()"><button class="btn-sm btn-green" style="background:#25D366;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;white-space:nowrap" onclick="addProductForm()">+ منتج جديد</button></div>
+</div><div id="productsList"></div>
+<div class="card"><h3>➕ إضافة / تعديل منتج</h3>
+<input type="hidden" id="editId">
+<label>اسم المنتج</label><input id="fName" placeholder="مبخرة ساعة رملية نقشة وردة">
+<label>القسم</label><select id="fCat"><option>مباخر</option><option>طاولات</option><option>كراسي وسفرة</option><option>طقم مكتب</option><option>برفانات</option><option>ديكور</option><option>هدايا</option><option>أطقم فاخرة</option></select>
+<label>الوصف</label><textarea id="fDesc" rows="2"></textarea>
+<label>رابط الصورة</label><input id="fImg" placeholder="https://...">
+<label>السعر - سيبه فاضي لو مش عايز أسعار</label><input id="fPrice" placeholder="اتركه فاضي = بدون سعر">
+<label>علامة مميزة - مثال: الأكثر مبيعا</label><input id="fBadge" placeholder="⭐ الأكثر مبيعا">
+<div class="toggle"><span>منتج مميز يظهر فوق</span><input type="checkbox" id="fFeatured"></div>
+<div class="toggle"><span>متوفر</span><input type="checkbox" id="fStock" checked></div>
+<button class="btn btn-gold" onclick="saveProduct()">💾 حفظ المنتج</button>
+<button class="btn btn-gray" onclick="clearProductForm()">مسح الفورم</button>
+</div></div>
+
+<!-- حكاية -->
+<div class="panel" id="p-story"><div class="card"><h3>📖 حكاية الصنعة - الـ 7 مراحل</h3>
+<label>عنوان القسم</label><input id="storyTitle" value="مراحل صنع البرفان الصدف بأيد مصرية 100%">
+<label>مقدمة القصة</label><textarea id="storyIntro" rows="2">مش مجرد بارافان.. ده قصة عشق بين خشب وصدف وفنان مصري بيتنفس تراث!</textarea>
+<div id="storyList"></div>
+<button class="btn btn-gold" onclick="addStage()">+ إضافة مرحلة</button>
+<div class="toggle"><span>إظهار قسم الحكاية</span><input type="checkbox" id="showStory" checked></div>
+</div></div>
+
+<!-- تصميم -->
+<div class="panel" id="p-design"><div class="card"><h3>🎨 التصميم - الألوان والخطوط وكل تفصيلة</h3>
+<div class="colorRow">
+<div>ذهبي<br><input type="color" id="colGold" value="#C9A227"></div>
+<div>أسود<br><input type="color" id="colBlack" value="#111111"></div>
+<div>خلفية<br><input type="color" id="colBg" value="#F8F5EF"></div>
+<div>كروت<br><input type="color" id="colCard" value="#ffffff"></div>
+<div>أخضر<br><input type="color" id="colGreen" value="#0E7A5A"></div>
+<div>واتساب<br><input type="color" id="colWA" value="#25D366"></div>
+</div>
+<div class="grid2">
+<div><label>خط العناوين</label><select id="fontTitle"><option value="Amiri">Amiri - تراثي</option><option value="Cairo">Cairo - عصري</option><option value="Tajawal">Tajawal - حديث</option></select></div>
+<div><label>خط النصوص</label><select id="fontBody"><option value="Cairo">Cairo</option><option value="Tajawal">Tajawal</option><option value="Amiri">Amiri</option></select></div>
+</div>
+<div class="grid2">
+<div><label>حجم العناوين</label><input type="number" id="titleSize" value="32"></div>
+<div><label>حجم النص</label><input type="number" id="bodySize" value="16"></div>
+</div>
+<div class="grid2">
+<div><label>استدارة الكروت</label><input type="range" id="radius" min="0" max="30" value="18"></div>
+<div><label>عدد الأعمدة في المنتجات</label><select id="cols"><option value="3">3 أعمدة</option><option value="2">2 عمود</option><option value="4">4 أعمدة</option></select></div>
+</div>
+<div class="toggle"><span>إظهار الأسعار في الموقع</span><input type="checkbox" id="showPrices"></div>
+<small>لو طفيتها، الأسعار هتختفي من كل الموقع ويبقى الاستفسار واتساب بس</small>
+</div></div>
+
+<!-- صور -->
+<div class="panel" id="p-media"><div class="card"><h3>🖼️ الصور - اللوجو والغلاف</h3>
+<label>رابط اللوجو</label><input id="logoUrl" placeholder="https://... لو فاضي هيظهر اسم الموقع نص">
+<label>رابط صورة الغلاف الأفقي - الـ 3 صور</label><input id="coverUrl" placeholder="حط رابط الغلاف الأفقي هنا">
+<label>رابط صورة طقم النجمة الخضرا</label><input id="starImg" value="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800">
+<label>رابط صورة البروفايل</label><input id="profileUrl" placeholder="https://...">
+</div></div>
+
+<!-- تواصل -->
+<div class="panel" id="p-contact"><div class="card"><h3>📞 التواصل والشحن - كل حاجة هنا</h3>
+<div class="grid2">
+<div><label>رقم الواتساب - بدون +</label><input id="waNum" value="96551118069"></div>
+<div><label>الايميل</label><input id="email" value="asalat.al.torath.Kw.Eg@GMAIL.COM"></div>
+</div>
+<div class="grid2">
+<div><label>رابط انستغرام</label><input id="insta" value="https://www.instagram.com/asalat.al.torath.kw.eg"></div>
+<div><label>رابط فيسبوك</label><input id="fb" value="https://www.facebook.com/profile.php?id=61595434109686"></div>
+</div>
+<label>مدة الشحن</label><input id="shippingTime" value="20-25 يوم">
+<label>نص الضمان</label><input id="warranty" value="ضمان 20 عام ضد عيوب الصناعة">
+<label>خيارات الشحن - كل سطر: الاسم | السعر | ملاحظة</label><textarea id="shippingOptions" rows="4">داخل الكويت | 1.500 | حسب المناطق
+دول الخليج | 3.000 | شحن سريع
+شحن عالمي | 10.000 | جميع أنحاء العالم
+استلام من الفرع | 0 | مجاني</textarea>
+<label>ملاحظة الشحن</label><input id="shippingNote" value="🚚 التوصيل: داخل الكويت حسب المناطق • شحن جميع دول الخليج • شحن جميع أنحاء العالم">
+<label>عنوان فورم اطلب تفصيل</label><input id="orderTitle" value="اطلب تفصيل مخصوص حسب مقاسك ولونك">
+<label>أقسام فورم الطلب - كل قسم في سطر</label><textarea id="orderCats" rows="5">مبخرة ساعة رملية
+طقم نجمة خضرا - صينية + علبة + مبخرة
+طاولات مثمنة ملونة 3 مقاسات
+سفرة 6 كراسي + طاولة
+طقم مكتب 10 قطع
+برفان صدف 3 ضلف
+فازات وبراويز</textarea>
+</div></div>
+
+<!-- فوتر -->
+<div class="panel" id="p-footer"><div class="card"><h3>🦶 الفوتر - آخر الصفحة</h3>
+<label>نص الفوتر الكبير</label><input id="footerBig" value="👑 أصالة التراث المصري - Asala Heritage Egyptian">
+<label>نص الفوتر الصغير</label><input id="footerSmall" value="🇪🇬 صنع في مصر | 📦 توصيل الكويت | 📩 واتساب 51118069">
+<label>الهاشتاجات</label><textarea id="hashtags" rows="2">#اصالة_التراث #برفان_صدف #صنع_في_مصر #صدف_مصري #تراث_مصري #ديكور_فاخر #handmade_in_egypt</textarea>
+<label>نص حقوق النشر</label><input id="copyright" value="© أصالة التراث المصري - جميع الحقوق محفوظة">
+<div class="toggle"><span>إظهار زر واتساب العائم</span><input type="checkbox" id="showFloatWA" checked></div>
+</div></div>
+
+<!-- نسخ -->
+<div class="panel" id="p-backup"><div class="card"><h3>💾 نسخ احتياطي</h3>
+<p style="font-size:14px">احفظ كل تعديلاتك في ملف، واسترجعها في أي وقت.</p>
+<button class="btn btn-green" onclick="exportData()">📥 تنزيل نسخة احتياطية JSON</button>
+<label>استيراد نسخة</label><input type="file" accept=".json" onchange="importData(this)">
+<button class="btn btn-red" onclick="resetAll()">🗑️ حذف الكل والرجوع للافتراضي</button>
+<div id="storageInfo" style="margin-top:12px;font-size:13px"></div>
+</div></div>
+
+<!-- معاينة -->
+<div class="panel" id="p-preview"><div class="card"><h3>👁️ معاينة حية - شوف الموقع زي الزبون</h3>
+<button class="btn btn-gold" onclick="refreshPreview()">🔄 تحديث المعاينة</button>
+<div class="previewBox" style="margin-top:12px"><iframe id="previewFrame"></iframe></div>
+</div></div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='asala_super_admin_v1';
+let S = load();
+function load(){ try{let s=JSON.parse(localStorage.getItem(KEY)); if(s) return s;}catch(e){} return defaultData(); }
+function defaultData(){
+return {
+siteName:'أصالة التراث المصري',siteNameEn:'Asala Heritage Egyptian',slogan:'عاشق ومعشوق — فن يدوي تم تصنيعه بحب من القلب ❤️',siteDesc:'أفخم منتجات الصدف الطبيعي المصري اليدوي — خشب زان روماني + صدف بحري أبيض أصلي — صنع بفخر في دمياط',adminPass:'asala123',showTrust:true,trustBar:'🇪🇬 صنع في مصر\n🛡️ ضمان 20 سنة ضد عيوب الصناعة\n🚚 شحن الكويت والخليج 20-25 يوم\n✋ شغل يدوي 100%',
+headerLogoText:'👑 أصالة التراث المصري',headerLinks:'الرئيسية | #home\nالمنتجات | #products\nطقم النجمة الخضرا | #star\nحكاية الصنعة | #story\nاطلب تفصيل | #order',headerBtn:'💬 واتساب 51118069',showHeader:true,stickyHeader:true,
+heroTitle1:'لما العشق يتحول لتحفة فنية',heroTitle2:'صدف طبيعي مصري 100%',heroText:'مش مجرد بارافان.. ده قصة عشق بين خشب وصدف وفنان مصري بيتنفس تراث! خشب زان روماني + صدف بحري أبيض أصلي',heroBtn1:'شوف الكتالوج 👇',heroBtn1Link:'#products',heroBtn2:'واتساب 51118069',heroBtn2Link:'https://wa.me/96551118069',heroSmall:'🚚 شحن الكويت والخليج 20-25 يوم | بدون أسعار - الاستفسار واتساب',heroImage:'https://images.unsplash.com/photo-1600210492486-724d80a4f3c7?w=1200',heroDark:0.55,showHero:true,
+secProductsTitle:'تشكيلة أصالة - النجمة الخضرا وكل الشغل المصري',secProductsSub:'كل القطع صدف أبيض لؤلؤي + نجمة إسلامية 12 + نقطة زمرد - حافة مخططة أبيض وأسود',
+secStarTitle:'⭐ طقم النجمة الخضرا - الطقم النجم',secStarDesc:'صينية مستطيلة + علبة مربعة + مبخرة ساعة رملية - صدف أبيض لؤلؤي + نجمة 12 سوداء + نقطة زمرد خضرا + أزرق + أصفر - خشب أسود فاخر',
+secReviewsTitle:'⭐ آراء عملائنا في الكويت',reviews:'أبو عبدالله - الكويت | الشغل فخم والصدف أصلي، فرش ديوانيتي كلها من عندهم\nأم سارة - الكويت | طلبت طقم النجمة الخضرا هدية، التغليف ملكي والشغل أحلى من الصور\nأبو محمد - المباركية | تاجر جملة، باخد منهم 21 مبخرة كل شهر، ملتزمين وشغلهم نضيف',
+storyTitle:'مراحل صنع البرفان الصدف بأيد مصرية 100%',storyIntro:'مش مجرد بارافان.. ده قصة عشق بين خشب وصدف وفنان مصري بيتنفس تراث!',showStory:true,
+stages:[
+{title:'1 - اختيار الأصل',desc:'زان روماني طبيعي، يعيش 100 سنة، ما يلفش ولا يقوس'},
+{title:'2 - رسم الحكاية المصرية',desc:'نقشة فرعونية / عربي أصيل بالايد قلم قلم'},
+{title:'3 - تقطيع الصدف',desc:'صدف بحري طبيعي يتقطع يدوياً بالملي قطعة قطعة'},
+{title:'4 - التطعيم - السحر',desc:'8 ساعات شغل في المتر الواحد، مفيش ماكينة تعمله'},
+{title:'5 - الصنفرة الملكية',desc:'5 مراحل يدوية لحد ما السطح يبقى حرير ويلمع طبيعي'},
+{title:'6 - التقفيل الأصيل',desc:'3 ضلف بمفصلات نحاس بلدي مخفية، يفتح بنعومة حرير'},
+{title:'7 - اللمسة الأخيرة',desc:'تلميع زيوت طبيعية + فحص جودة + ختم أصالة - دمياط'}
+],
+colGold:'#C9A227',colBlack:'#111111',colBg:'#F8F5EF',colCard:'#ffffff',colGreen:'#0E7A5A',colWA:'#25D366',fontTitle:'Amiri',fontBody:'Cairo',titleSize:32,bodySize:16,radius:18,cols:'3',showPrices:false,
+logoUrl:'',coverUrl:'',starImg:'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800',profileUrl:'',
+waNum:'96551118069',email:'asalat.al.torath.Kw.Eg@GMAIL.COM',insta:'https://www.instagram.com/asalat.al.torath.kw.eg',fb:'https://www.facebook.com/profile.php?id=61595434109686',shippingTime:'20-25 يوم',warranty:'ضمان 20 عام ضد عيوب الصناعة',shippingOptions:'داخل الكويت | 1.500 | حسب المناطق\nدول الخليج | 3.000 | شحن سريع\nشحن عالمي | 10.000 | جميع أنحاء العالم\nاستلام من الفرع | 0 | مجاني',shippingNote:'🚚 التوصيل: داخل الكويت حسب المناطق • شحن جميع دول الخليج • شحن جميع أنحاء العالم',orderTitle:'اطلب تفصيل مخصوص حسب مقاسك ولونك',orderCats:'مبخرة ساعة رملية\nطقم نجمة خضرا - صينية + علبة + مبخرة\nطاولات مثمنة ملونة 3 مقاسات\nسفرة 6 كراسي + طاولة\nطقم مكتب 10 قطع\nبرفان صدف 3 ضلف\nفازات وبراويز',
+footerBig:'👑 أصالة التراث المصري - Asala Heritage Egyptian',footerSmall:'🇪🇬 صنع في مصر | 📦 توصيل الكويت | 📩 واتساب 51118069',hashtags:'#اصالة_التراث #برفان_صدف #صنع_في_مصر #صدف_مصري #تراث_مصري #ديكور_فاخر #handmade_in_egypt',copyright:'© أصالة التراث المصري - جميع الحقوق محفوظة',showFloatWA:true,
+sections:{home:true,products:true,star:true,story:true,reviews:true,order:true,shipping:true},
+products:[
+{id:1,name:'طقم النجمة الخضرا - صينية + علبة + مبخرة',cat:'أطقم فاخرة',desc:'صدف أبيض لؤلؤي + نجمة 12 سوداء + نقطة زمرد - خشب أسود فاخر',img:'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800',price:'',badge:'⭐ الأكثر مبيعا',featured:true,stock:true},
+{id:2,name:'كتالوج 21 مبخرة ساعة رملية',cat:'مباخر',desc:'21 نقشة مختلفة - نجمة - وردة - دائرة - مغلفة جاهزة للتصدير',img:'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800',price:'',badge:'',featured:true,stock:true},
+{id:3,name:'طاولات مثمنة ملونة - 3 مقاسات',cat:'طاولات',desc:'35 / 40 / 50 سم - مكعبات أخضر أصفر بني أبيض - رجلين معينات',img:'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=800',price:'',badge:'',featured:false,stock:true},
+{id:4,name:'سفرة ملكية 6 كراسي + طاولة مثمنة',cat:'كراسي وسفرة',desc:'كراسي سوداء مطعمة صدف أبيض + طاولة مكعبات ملونة',img:'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=800',price:'',badge:'',featured:false,stock:true},
+{id:5,name:'طقم مكتب أسود وأبيض - 10 قطع',cat:'طقم مكتب',desc:'علبة مناديل - مقلمة - حافظة - صينية - كوستر',img:'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800',price:'',badge:'',featured:false,stock:true},
+{id:6,name:'برفان صدف 3 ضلف - تحفة قصر',cat:'برفانات',desc:'يحول زاوية فاضية لقصر ملكي - 21 يوم شغل يدوي',img:'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800',price:'',badge:'',featured:true,stock:true},
+{id:7,name:'فازات + براويز قرآنية',cat:'ديكور',desc:'فازات بني أحمر أسود بحزام صدف + براويز سورة الفلق',img:'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800',price:'',badge:'',featured:false,stock:true},
+{id:8,name:'شطرنج أزرق وأبيض + صناديق مجوهرات',cat:'هدايا',desc:'شغل صدف فاخر للهدية - تفصيل مخصوص',img:'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800',price:'',badge:'',featured:false,stock:true}
+]
+};}
+function save(){localStorage.setItem(KEY,JSON.stringify(S)); updateInfo();}
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500);}
+function show(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p-'+id).classList.add('active');document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));event.target.classList.add('active'); if(id==='products')renderProducts(); if(id==='story')renderStages(); if(id==='sections')renderSections(); if(id==='preview')refreshPreview(); if(id==='backup')updateInfo();}
+function collect(){
+let ids=['siteName','siteNameEn','slogan','siteDesc','adminPass','trustBar','headerLogoText','headerLinks','headerBtn','heroTitle1','heroTitle2','heroText','heroBtn1','heroBtn1Link','heroBtn2','heroBtn2Link','heroSmall','heroImage','secProductsTitle','secProductsSub','secStarTitle','secStarDesc','secReviewsTitle','reviews','storyTitle','storyIntro','logoUrl','coverUrl','starImg','profileUrl','waNum','email','insta','fb','shippingTime','warranty','shippingOptions','shippingNote','orderTitle','orderCats','footerBig','footerSmall','hashtags','copyright'];
+ids.forEach(id=>{let el=document.getElementById(id); if(el) S[id]=el.value;});
+let checks={showTrust:'showTrust',showHeader:'showHeader',stickyHeader:'stickyHeader',showHero:'showHero',showStory:'showStory',showPrices:'showPrices',showFloatWA:'showFloatWA'};
+for(let k in checks) S[k]=document.getElementById(checks[k]).checked;
+S.colGold=document.getElementById('colGold').value; S.colBlack=document.getElementById('colBlack').value; S.colBg=document.getElementById('colBg').value; S.colCard=document.getElementById('colCard').value; S.colGreen=document.getElementById('colGreen').value; S.colWA=document.getElementById('colWA').value;
+S.fontTitle=document.getElementById('fontTitle').value; S.fontBody=document.getElementById('fontBody').value; S.titleSize=document.getElementById('titleSize').value; S.bodySize=document.getElementById('bodySize').value; S.radius=document.getElementById('radius').value; S.cols=document.getElementById('cols').value; S.heroDark=document.getElementById('heroDark').value;
+}
+function fill(){
+let ids=['siteName','siteNameEn','slogan','siteDesc','adminPass','trustBar','headerLogoText','headerLinks','headerBtn','heroTitle1','heroTitle2','heroText','heroBtn1','heroBtn1Link','heroBtn2','heroBtn2Link','heroSmall','heroImage','secProductsTitle','secProductsSub','secStarTitle','secStarDesc','secReviewsTitle','reviews','storyTitle','storyIntro','logoUrl','coverUrl','starImg','profileUrl','waNum','email','insta','fb','shippingTime','warranty','shippingOptions','shippingNote','orderTitle','orderCats','footerBig','footerSmall','hashtags','copyright'];
+ids.forEach(id=>{let el=document.getElementById(id); if(el) el.value=S[id]||'';});
+let checks={showTrust:'showTrust',showHeader:'showHeader',stickyHeader:'stickyHeader',showHero:'showHero',showStory:'showStory',showPrices:'showPrices',showFloatWA:'showFloatWA'};
+for(let k in checks) document.getElementById(checks[k]).checked=!!S[k];
+document.getElementById('colGold').value=S.colGold; document.getElementById('colBlack').value=S.colBlack; document.getElementById('colBg').value=S.colBg; document.getElementById('colCard').value=S.colCard; document.getElementById('colGreen').value=S.colGreen; document.getElementById('colWA').value=S.colWA;
+document.getElementById('fontTitle').value=S.fontTitle; document.getElementById('fontBody').value=S.fontBody; document.getElementById('titleSize').value=S.titleSize; document.getElementById('bodySize').value=S.bodySize; document.getElementById('radius').value=S.radius; document.getElementById('cols').value=S.cols; document.getElementById('heroDark').value=S.heroDark;
+renderProducts(); renderStages(); renderSections(); updateInfo();
+}
+function saveAll(){collect(); save(); toast('✅ تم حفظ كل حاجة'); refreshPreview();}
+function renderSections(){
+let map={home:'الرئيسية Hero',products:'المنتجات',star:'طقم النجمة الخضرا',story:'حكاية الصنعة',reviews:'آراء العملاء',order:'اطلب تفصيل',shipping:'الشحن'};
+document.getElementById('sectionsList').innerHTML=Object.keys(map).map(k=>`<div class="toggle"><span>${map[k]}</span><input type="checkbox" ${S.sections[k]?'checked':''} onchange="S.sections['${k}']=this.checked;save();"></div>`).join('');
+}
+function renderProducts(){
+let q=(document.getElementById('searchProd').value||'').toLowerCase();
+let list=S.products.filter(p=>!q||p.name.toLowerCase().includes(q));
+document.getElementById('productsList').innerHTML=list.map(p=>`<div class="pcard"><img src="${p.img}"><div><b>${p.name}</b> <span style="color:#C9A227">${p.badge||''}</span><br><small>${p.cat} - ${p.desc}</small><br><div style="display:flex;gap:6px;margin-top:8px"><button class="btn-sm" style="background:#F1E9D2;border:0;border-radius:8px;padding:8px 12px;font-weight:800;cursor:pointer" onclick="editProduct(${p.id})">✏️ تعديل</button><button class="btn-sm" style="background:#c0392b;color:#fff;border:0;border-radius:8px;padding:8px 12px;font-weight:800;cursor:pointer" onclick="delProduct(${p.id})">🗑️ حذف</button><button class="btn-sm" style="background:#eee;border:0;border-radius:8px;padding:8px 12px;font-weight:800;cursor:pointer" onclick="toggleFeat(${p.id})">${p.featured?'⭐ مميز':'تثبيت'}</button></div></div></div>`).join('')||'<p style="text-align:center;color:#999">مفيش منتجات</p>';
+}
+function addProductForm(){clearProductForm(); document.getElementById('fName').focus();}
+function clearProductForm(){document.getElementById('editId').value='';['fName','fDesc','fImg','fPrice','fBadge'].forEach(id=>document.getElementById(id).value='');document.getElementById('fFeatured').checked=false;document.getElementById('fStock').checked=true;}
+function editProduct(id){let p=S.products.find(x=>x.id===id); if(!p)return; document.getElementById('editId').value=p.id; document.getElementById('fName').value=p.name; document.getElementById('fCat').value=p.cat; document.getElementById('fDesc').value=p.desc; document.getElementById('fImg').value=p.img; document.getElementById('fPrice').value=p.price; document.getElementById('fBadge').value=p.badge; document.getElementById('fFeatured').checked=p.featured; document.getElementById('fStock').checked=p.stock; window.scrollTo({top:document.getElementById('productsList').offsetTop+300,behavior:'smooth'});}
+function saveProduct(){collect(); let id=document.getElementById('editId').value; let p={id:id?+id:Date.now(),name:document.getElementById('fName').value||'منتج جديد',cat:document.getElementById('fCat').value,desc:document.getElementById('fDesc').value,img:document.getElementById('fImg').value||'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800',price:document.getElementById('fPrice').value,badge:document.getElementById('fBadge').value,featured:document.getElementById('fFeatured').checked,stock:document.getElementById('fStock').checked}; if(id){let i=S.products.findIndex(x=>x.id===+id); S.products[i]=p;}else{S.products.unshift(p);} save(); clearProductForm(); renderProducts(); toast('✅ اتحفظ المنتج');}
+function delProduct(id){if(!confirm('تحذف المنتج؟'))return; S.products=S.products.filter(p=>p.id!==id); save(); renderProducts();}
+function toggleFeat(id){let p=S.products.find(x=>x.id===id); p.featured=!p.featured; save(); renderProducts();}
+function renderStages(){document.getElementById('storyList').innerHTML=S.stages.map((s,i)=>`<div class="card" style="padding:12px"><label>عنوان المرحلة ${i+1}</label><input value="${s.title}" oninput="S.stages[${i}].title=this.value;save()"><label>شرح المرحلة</label><textarea rows="2" oninput="S.stages[${i}].desc=this.value;save()">${s.desc}</textarea><button class="btn-sm" style="background:#c0392b;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer" onclick="S.stages.splice(${i},1);save();renderStages()">حذف المرحلة</button></div>`).join('');}
+function addStage(){S.stages.push({title:'مرحلة جديدة',desc:'اكتب شرح المرحلة هنا'}); save(); renderStages();}
+function exportData(){collect(); let b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='asala-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); toast('📥 اتنزلت النسخة');}
+function importData(inp){let f=inp.files[0]; if(!f)return; let r=new FileReader(); r.onload=e=>{try{S=JSON.parse(e.target.result); save(); fill(); toast('✅ اتستوردت');}catch(err){toast('❌ ملف غلط');}}; r.readAsText(f);}
+function resetAll(){if(!confirm('تحذف الكل وترجع للافتراضي؟'))return; S=defaultData(); save(); fill(); toast('🔄 رجعنا للافتراضي');}
+function updateInfo(){let el=document.getElementById('storageInfo'); if(el) el.innerHTML=`📦 عدد المنتجات: <b>${S.products.length}</b> | 💾 حجم البيانات: <b>${(new Blob([JSON.stringify(S)]).size/1024).toFixed(1)} KB</b> | 🔑 كلمة السر: <b>${S.adminPass}</b>`;}
+function openStore(){collect(); save(); let h=buildStore(); let b=new Blob([h],{type:'text/html'}); window.open(URL.createObjectURL(b));}
+function refreshPreview(){collect(); save(); document.getElementById('previewFrame').src=URL.createObjectURL(new Blob([buildStore()],{type:'text/html'}));}
+function buildStore(){
+let trust=S.trustBar.split('\n').filter(x=>x.trim()).map(x=>`<span>${x}</span>`).join(' • ');
+let links=S.headerLinks.split('\n').filter(x=>x.trim()).map(l=>{let p=l.split('|'); return `<a href="${(p[1]||'#').trim()}">${(p[0]||'').trim()}</a>`;}).join(' | ');
+let prods=S.products.map(p=>`<div class="card"><img src="${p.img}"><div><span class="tag">${p.cat}</span> ${p.badge?`<span class="badge">${p.badge}</span>`:''}<h3>${p.name}</h3><p>${p.desc}</p>${S.showPrices&&p.price?`<b style="color:${S.colGold}">${p.price} د.ك</b><br>`:''}<a href="https://wa.me/${S.waNum}?text=${encodeURIComponent('هلا، عايز استفسر عن: '+p.name)}" class="wa">استفسر واتساب →</a></div></div>`).join('');
+let stages=S.stages.map(s=>`<div class="step"><h3>${s.title}</h3><p>${s.desc}</p></div>`).join('');
+let revs=S.reviews.split('\n').filter(x=>x.trim()).map(r=>{let p=r.split('|'); return `<div class="rev"><b>${p[0]||''}</b><p>${p[1]||''}</p></div>`;}).join('');
+let orderOpts=S.orderCats.split('\n').filter(x=>x.trim()).map(o=>`<option>${o.trim()}</option>`).join('');
+let shipOpts=S.shippingOptions.split('\n').filter(x=>x.trim()).map(o=>{let p=o.split('|'); return `<div>🚚 ${p[0]} - ${p[1]} د.ك - ${p[2]||''}</div>`;}).join('');
+return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${S.siteName} | ${S.siteNameEn}</title><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0;font-family:'${S.fontBody}',sans-serif}body{background:${S.colBg};color:#222;line-height:1.8}header{${S.stickyHeader?'position:sticky;top:0;':''}background:${S.colBlack};color:#fff;display:flex;justify-content:space-between;align-items:center;padding:14px 20px;z-index:10;flex-wrap:wrap;gap:10px}header a{color:#fff;text-decoration:none}header b{color:${S.colGold}}.hero{background:linear-gradient(rgba(0,0,0,${S.heroDark}),rgba(0,0,0,${S.heroDark})),url('${S.heroImage}');background-size:cover;background-position:center;color:#fff;text-align:center;padding:90px 20px}.hero h1{font-family:'${S.fontTitle}',serif;font-size:${S.titleSize*1.4}px;line-height:1.3}.hero h1 span{color:${S.colGold}}.btn{display:inline-block;background:${S.colGold};color:#111;padding:13px 28px;border-radius:30px;font-weight:800;margin:5px;text-decoration:none}.btn2{background:${S.colGreen};color:#fff}section{padding:50px 20px;max-width:1150px;margin:auto}h2{text-align:center;font-size:${S.titleSize}px;margin-bottom:8px}.sub{text-align:center;color:#666;margin-bottom:30px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.card{background:${S.colCard};border-radius:${S.radius}px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.08)}.card img{width:100%;height:220px;object-fit:cover}.card div{padding:16px}.tag{background:#F1E9D2;color:#8A6D00;font-size:12px;padding:4px 10px;border-radius:20px;font-weight:700}.badge{background:${S.colGold};color:#fff;font-size:12px;padding:4px 10px;border-radius:20px}.wa{color:${S.colGreen};font-weight:800;text-decoration:none}.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}.step{background:${S.colBlack};color:#fff;padding:20px;border-radius:16px}.step h3{color:${S.colGold}}form{background:#fff;padding:22px;border-radius:18px;display:grid;gap:12px;max-width:650px;margin:auto}input,select,textarea{padding:13px;border:1px solid #ddd;border-radius:12px;width:100%;font-size:16px}footer{background:${S.colBlack};color:#fff;text-align:center;padding:30px 20px}.rev{background:#fff;padding:16px;border-radius:14px;margin:10px 0}.float{position:fixed;bottom:18px;left:18px;background:${S.colWA};color:#fff;padding:14px 20px;border-radius:30px;font-weight:800;z-index:20;text-decoration:none}</style></head><body>
+${S.showHeader?`<header><div>${S.headerLogoText}</div><div>${links}</div></header>`:''}
+${S.showTrust?`<div style="text-align:center;padding:12px;background:#F1E9D2;font-size:13px;font-weight:700">${trust}</div>`:''}
+${S.showHero?`<div class="hero"><h1>${S.heroTitle1}<br><span>${S.heroTitle2}</span></h1><p style="max-width:700px;margin:15px auto">${S.heroText}</p><a class="btn" href="${S.heroBtn1Link}">${S.heroBtn1}</a><a class="btn btn2" href="${S.heroBtn2Link}">${S.heroBtn2}</a><p style="font-size:13px;margin-top:12px">${S.heroSmall}</p></div>`:''}
+${S.sections.products?`<section id="products"><h2>${S.secProductsTitle}</h2><p class="sub">${S.secProductsSub}</p><div class="grid">${prods}</div></section>`:''}
+${S.sections.star?`<section id="star" style="background:#fff;border-radius:20px"><h2>${S.secStarTitle}</h2><p style="text-align:center">${S.secStarDesc}</p><img src="${S.starImg}" style="width:100%;max-height:380px;object-fit:cover;border-radius:16px;margin-top:16px"></section>`:''}
+${S.sections.story&&S.showStory?`<section id="story"><h2>${S.storyTitle}</h2><p class="sub">${S.storyIntro}</p><div class="steps">${stages}</div></section>`:''}
+${S.sections.reviews?`<section><h2>${S.secReviewsTitle}</h2>${revs}</section>`:''}
+${S.sections.shipping?`<section><h2>🚚 الشحن والضمان</h2><p style="text-align:center">${S.shippingNote}<br>${S.warranty} | الشحن: ${S.shippingTime}</p><div style="text-align:center;margin-top:12px">${shipOpts}</div></section>`:''}
+${S.sections.order?`<section id="order"><h2>${S.orderTitle}</h2><form onsubmit="event.preventDefault();let n=document.getElementById('n').value;let c=document.getElementById('c').value;let m=document.getElementById('m').value;window.open('https://wa.me/${S.waNum}?text='+encodeURIComponent('هلا أصالة\\nالاسم: '+n+'\\nالطلب: '+c+'\\nالتفاصيل: '+m))"><input id="n" placeholder="اسمك" required><select id="c">${orderOpts}</select><textarea id="m" placeholder="اكتب المقاس واللون..."></textarea><button class="btn" style="border:0;cursor:pointer">ابعت الطلب واتساب 📩</button></form></section>`:''}
+<footer><h3>${S.footerBig}</h3><p>${S.footerSmall}</p><p>${S.hashtags}</p><p>${S.copyright}</p><p><a href="mailto:${S.email}" style="color:${S.colGold}">${S.email}</a> | <a href="${S.insta}" style="color:${S.colGold}">انستغرام</a> | <a href="${S.fb}" style="color:${S.colGold}">فيسبوك</a></p></footer>
+${S.showFloatWA?`<a class="float" href="https://wa.me/${S.waNum}">💬 واتساب</a>`:''}
+</body></html>`;
+}
+fill();
+</script>
+</body>
+</html>
